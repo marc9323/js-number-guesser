@@ -9,8 +9,10 @@
 // game values
 let min = 1,
     max = 10,
-    winningNum = 2,
+    winningNum = getRandomNum(min, max),
     guessesLeft = 3;
+
+console.log(winningNum);
 
 // UI Elements
 const game = document.querySelector('#game'),
@@ -23,6 +25,13 @@ const game = document.querySelector('#game'),
 // assign UI min and max
 minNum.textContent = min;
 maxNum.textContent = max;
+
+// Play Again
+game.addEventListener('mousedown', e => {
+    if (e.target.className === 'play-again') {
+        window.location.reload();
+    }
+});
 
 // listen guess
 guessBtn.addEventListener('click', () => {
@@ -62,6 +71,17 @@ function gameOver(won, msg) {
     guessInput.disabled = true;
     guessInput.style.borderColor = color;
     setMessage(msg, color);
+
+    // play again
+    guessBtn.value = 'Play Again';
+    guessBtn.className += 'play-again';
+
+    // since class was added after page loads we need to add listener
+    // to a parent and searhc for target we want
+}
+
+function getRandomNum(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 // set message
